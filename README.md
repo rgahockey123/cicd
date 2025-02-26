@@ -1,2 +1,1 @@
-# cicdpipelines
-# cicdpipelines
+# cicd
