@@ -1,0 +1,10 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerBinding
+metadata:
+  name: clone-build-push-binding
+spec: 
+  params:
+  - name: repo-url
+    value: https://github.com/rgahockey123/myapi.git
+  - name: image-reference
+    value: quay.io/rgahockey3/myapi:latest

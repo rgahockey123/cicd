@@ -1,0 +1,35 @@
+apiVersion: triggers.tekton.dev/v1beta1
+kind: TriggerTemplate
+metadata:
+  name: clone-build-push-template
+spec:
+  params:
+  - name: repo-url
+    default: "https://github.com/rgahockey123/myapi.git"
+  - name: image-reference
+    default: "quay.io/rgahockey3/myapi:latest"
+  resourcetemplates:
+  - apiVersion: tekton.dev/v1beta1
+    kind: PipelineRun
+    metadata:
+      generateName: clone-build-push-run-
+    spec:
+      pipelineRef:
+        name: clone-build-push 
+      params:
+      - name: repo-url 
+        value: $(tt.params.repo-url)
+      - name: image-reference
+        value: $(tt.params.image-reference)
+      workspaces:
+      - name: shared-data
+        volumeClaimTemplate:
+          spec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+      - name: podman-credentials
+        secret:
+          secretName: podman-credentials

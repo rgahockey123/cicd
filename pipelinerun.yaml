@@ -1,0 +1,27 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: clone-build-push-run-
+spec:
+  pipelineRef:
+    name: clone-build-push
+  podTemplate:
+    securityContext:
+      fsGroup: 1000900000 
+  workspaces:
+  - name: shared-data
+    volumeClaimTemplate:
+      spec:
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 1Gi
+  - name: podman-credentials
+    secret:
+      secretName: podman-credentials
+  params:
+  - name: repo-url
+    value: https://github.com/rgahockey123/myapi.git
+  - name: image-reference
+    value: quay.io/rgahockey3/test:latest

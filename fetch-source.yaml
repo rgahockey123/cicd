@@ -1,0 +1,10 @@
+tasks:
+- name: fetch-source
+  taskRef:
+    name: git-clone
+  workspaces:
+  - name: output
+    workspace: shared-data
+  params:
+  - name: url
+    value: $(params.repo-url)
